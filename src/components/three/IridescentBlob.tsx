@@ -1,39 +1,41 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, Suspense, useMemo } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { Environment, Float, MeshDistortMaterial } from "@react-three/drei"
-import type { Mesh } from "three"
+import { Environment, Float, MeshDistortMaterial, ContactShadows } from "@react-three/drei"
 import * as THREE from "three"
 
-function Blob() {
-  const meshRef = useRef<Mesh>(null!)
-  const materialRef = useRef<THREE.MeshPhysicalMaterial>(null!)
-
+function FluidBlob() {
+  const materialRef = useRef<any>(null!)
+  
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
-    meshRef.current.rotation.x = t * 0.2
-    meshRef.current.rotation.y = t * 0.3
+    // Làm cho khối méo mó theo thời gian một cách mượt mà
+    if (materialRef.current) {
+      materialRef.current.distort = THREE.MathUtils.lerp(materialRef.current.distort, 0.4 + Math.sin(t) * 0.2, 0.05)
+    }
   })
 
   return (
-    <Float speed={2} rotationIntensity={0.8} floatIntensity={1.5}>
-      <mesh ref={meshRef}>
-        <icosahedronGeometry args={[1.3, 32]} />
-        <meshPhysicalMaterial
+    <Float speed={3} rotationIntensity={0.5} floatIntensity={2}>
+      <mesh>
+        <icosahedronGeometry args={[1.5, 64]} />
+        {/* Kết hợp giữa biến dạng (Distort) và vật lý (Physical) */}
+        <MeshDistortMaterial
           ref={materialRef}
           color="#ffffff"
-          transmission={0.85}
-          thickness={2}
-          roughness={0.05}
+          speed={2}            // Tốc độ biến dạng khối lỏng
+          distort={0.4}        // Độ méo
+          radius={1}
+          transmission={1}     // Độ trong suốt
+          thickness={3}        // Độ dày (tạo chiều sâu màu bên trong)
+          roughness={0}        // Siêu bóng
           metalness={0.1}
-          iridescence={1}
-          iridescenceIOR={1.8}
-          iridescenceThicknessRange={[200, 1200]}
+          iridescence={1}      // Tán sắc cầu vồng
+          iridescenceIOR={2}   // Tăng mạnh để dải màu rõ như ảnh mẫu
           clearcoat={1}
           clearcoatRoughness={0}
-          reflectivity={1}
-          envMapIntensity={2}
+          ior={1.45}
         />
       </mesh>
     </Float>
@@ -42,28 +44,24 @@ function Blob() {
 
 export function IridescentBlob() {
   return (
-    <Canvas
-      camera={{ position: [0, 0, 5], fov: 40 }}
-      style={{ background: "#0a001a" }}
-      gl={{ antialias: true, alpha: false }}
-    >
-      {/* Nhiều nguồn sáng màu để kích hoạt hiệu ứng iridescence */}
-      <ambientLight intensity={1} />
-      <pointLight position={[5, 5, 5]}   color="#ff00ff" intensity={15} />
-      <pointLight position={[-5, -5, 5]}  color="#00ccff" intensity={15} />
-      <pointLight position={[5, -5, -5]}  color="#aa00ff" intensity={10} />
-      <pointLight position={[-5, 5, -3]}  color="#ff3399" intensity={10} />
-      <spotLight
-        position={[0, 10, 5]}
-        angle={0.4}
-        penumbra={1}
-        intensity={20}
-        color="#ffffff"
-      />
+    <div className="w-full h-full min-h-[500px]">
+      <Canvas camera={{ position: [0, 0, 5], fov: 40 }} gl={{ antialias: true }}>
+        <Suspense fallback={null}>
+          <ambientLight intensity={0.5} />
+          
+          {/* Đặt các đèn màu cực mạnh sát vật thể để ép màu iridescence hiện lên */}
+          <pointLight position={[5, 5, 5]} color="#ff00ff" intensity={150} />
+          <pointLight position={[-5, -5, 5]} color="#00ffff" intensity={120} />
+          <pointLight position={[0, -5, -5]} color="#ffaa00" intensity={100} />
 
-      <Blob />
+          <FluidBlob />
 
-      <Environment preset="night" />
-    </Canvas>
+          {/* Dùng preset 'sunset' sẽ cho nhiều màu cam/hồng hơn giống ảnh mẫu */}
+          <Environment preset="sunset" /> 
+          
+          <ContactShadows position={[0, -2.5, 0]} opacity={0.4} scale={10} blur={2.5} />
+        </Suspense>
+      </Canvas>
+    </div>
   )
 }
