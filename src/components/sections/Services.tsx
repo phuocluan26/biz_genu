@@ -52,7 +52,7 @@ export function Services() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md"
           >
-            <span className="text-xs font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500 uppercase">
+            <span className="text-xs font-bold tracking-widest text-transparent bg-clip-text bg-linear-to-r from-pink-500 to-yellow-500 uppercase">
               Siêu Năng Lực
             </span>
           </motion.div>
@@ -90,7 +90,7 @@ export function Services() {
               className={`group relative p-8 rounded-3xl bg-zinc-900/50 border border-white/5 backdrop-blur-xl hover:border-white/20 transition-all duration-500 overflow-hidden flex flex-col ${service.colSpan}`}
             >
               {/* Ánh sáng gradient chìm bên dưới mỗi card */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${service.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+              <div className={`absolute inset-0 bg-linear-to-br ${service.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
               
               <div className="relative z-10 flex flex-col flex-1">
                 {/* Phần Icon luôn nằm ở trên cùng */}

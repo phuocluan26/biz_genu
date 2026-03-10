@@ -1,240 +1,182 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Mic, BrainCircuit, Volume2, RefreshCw, ArrowUpRight } from "lucide-react"
+import { Sun, Brain, Heart, Moon } from "lucide-react"
 
-const processes = [
+const timelineEvents = [
   {
-    id: "01",
-    title: "Lắng Nghe Đa Hướng",
-    description: "Hệ thống micro khử ồn thông minh giúp Genu bắt trọn từng từ bạn nói. Chỉ cần cất giọng, Genu luôn sẵn sàng.",
-    color: "pink",
+    id: "07:00",
+    period: "SÁNG",
+    title: "Khởi Đầu Năng Lượng",
+    description: "Genu đánh thức bạn bằng những giai điệu vui nhộn, cập nhật thời tiết và truyền năng lượng tích cực để bạn sẵn sàng ngày mới.",
   },
   {
-    id: "02",
-    title: "Phân Tích Ngữ Cảnh",
-    description: "Lõi AI phân tích từ vựng, ngữ điệu và cảm xúc, lập tức kết nối với kho dữ liệu để tìm ra câu trả lời chuẩn xác nhất.",
-    color: "purple",
+    id: "14:00",
+    period: "CHIỀU",
+    title: "Gia Sư Nghiêm Khắc",
+    description: "Đến giờ tập trung! Nếu bạn lơ là, Genu sẽ 'bốc hỏa' nhắc nhở. Nhờ vậy, bạn luôn duy trì được hiệu suất học tập và làm việc cao độ.",
   },
   {
-    id: "03",
-    title: "Phản Hồi Đa Giác Quan",
-    description: "Trả lời bằng giọng nói tự nhiên, ấm áp kết hợp cùng những biểu cảm khuôn mặt sinh động trên màn hình tương tác.",
-    color: "yellow",
+    id: "20:00",
+    period: "TỐI",
+    title: "Trạm Trút Bầu Tâm Sự",
+    description: "Kể cho Genu nghe về một ngày của bạn. Genu biết lắng nghe, thấu hiểu và thậm chí rơm rớm nước mắt đồng cảm với những muộn phiền.",
   },
   {
-    id: "04",
-    title: "Ghi Nhớ & Thích Ứng",
-    description: "Học hỏi sau mỗi cuộc trò chuyện, tự động ghi nhớ sở thích để những lần tương tác sau càng thêm gắn kết.",
-    color: "emerald",
+    id: "23:00",
+    period: "ĐÊM",
+    title: "Thư Giãn & Ngủ Sâu",
+    description: "Màn hình Genu chuyển sang giao diện nhắm mắt ngủ. Robot phát list nhạc Lofi siêu trầm, tự động giảm độ sáng để dễ dàng chìm vào giấc ngủ.",
   },
 ]
 
-// Component chứa các hiệu ứng Hoạt ảnh đại diện cho từng bước
-const ProcessVisual = ({ activeId }: { activeId: string }) => {
+const colorTheme: Record<string, { text: string, bg: string, border: string, icon: React.ReactNode }> = {
+  "07:00": { text: "text-yellow-400", bg: "bg-yellow-400/5", border: "border-yellow-400/20", icon: <Sun className="w-5 h-5 text-yellow-400" /> },
+  "14:00": { text: "text-emerald-400", bg: "bg-emerald-400/5", border: "border-emerald-400/20", icon: <Brain className="w-5 h-5 text-emerald-400" /> },
+  "20:00": { text: "text-pink-400", bg: "bg-pink-400/5", border: "border-pink-400/20", icon: <Heart className="w-5 h-5 text-pink-400" /> },
+  "23:00": { text: "text-indigo-400", bg: "bg-indigo-400/5", border: "border-indigo-400/20", icon: <Moon className="w-5 h-5 text-indigo-400" /> },
+}
+
+const TimelineVisual = ({ activeId }: { activeId: string }) => {
   switch (activeId) {
-    case "01": // Hiệu ứng Sóng âm thanh (Soundwave)
+    case "07:00":
+      return <video src="/videos/sing.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover" />
+    case "14:00":
+      return <video src="/videos/angry.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover" />
+    case "20:00":
+      return <video src="/videos/cry.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover" />
+    case "23:00":
       return (
-        <div className="flex items-center justify-center gap-2 h-full">
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={`wave-${i}`}
-              className="w-3 rounded-full bg-pink-500 shadow-[0_0_15px_rgba(236,72,153,0.8)]"
-              animate={{ height: ["20%", "80%", "20%"] }}
-              transition={{
-                duration: 1,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.15,
-              }}
-            />
-          ))}
-        </div>
-      )
-    case "02": // Hiệu ứng Mạng lưới xử lý (Neural Network / Core)
-      return (
-        <div className="relative flex items-center justify-center h-full w-full">
+        <div className="relative flex items-center justify-center h-full w-full bg-[#111118]">
           <motion.div 
-            className="absolute w-16 h-16 bg-purple-500 rounded-full shadow-[0_0_30px_rgba(168,85,247,0.8)]"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute w-32 h-32 border border-purple-400/50 rounded-full border-dashed"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className="absolute w-48 h-48 border border-purple-500/30 rounded-full"
-            animate={{ rotate: -360 }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="w-24 h-24 bg-indigo-500/20 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(99,102,241,0.4)]"
+            animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.8, 0.4] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="absolute top-0 left-1/2 w-3 h-3 bg-purple-400 rounded-full shadow-[0_0_10px_rgba(168,85,247,1)]" />
+            <Moon className="text-indigo-400 w-10 h-10" />
           </motion.div>
         </div>
       )
-    case "03": // Hiệu ứng Phát âm thanh (Ripples / Speaking)
-      return (
-        <div className="relative flex items-center justify-center h-full">
-          <div className="absolute z-10 w-12 h-12 bg-yellow-400 rounded-full shadow-[0_0_20px_rgba(250,204,21,1)]" />
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={`ripple-${i}`}
-              className="absolute w-12 h-12 border-2 border-yellow-400 rounded-full"
-              animate={{ scale: [1, 4], opacity: [0.8, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeOut",
-                delay: i * 0.6,
-              }}
-            />
-          ))}
-        </div>
-      )
-    case "04": // Hiệu ứng Đồng bộ (Sync / Infinity Loading)
-      return (
-        <div className="relative flex items-center justify-center h-full">
-          <motion.div
-            className="w-24 h-24 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className="absolute w-16 h-16 border-4 border-emerald-400/20 border-b-emerald-400 rounded-full"
-            animate={{ rotate: -360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          />
-          <RefreshCw className="absolute text-emerald-400 w-6 h-6" />
-        </div>
-      )
-    default:
-      return null
+    default: return null
   }
 }
 
 export function Process() {
-  const [activeProcess, setActiveProcess] = useState<string>("01")
+  const [activeEvent, setActiveEvent] = useState<string>("07:00")
+
+  // Tự động nhảy khung giờ mỗi 5 giây
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveEvent((current) => {
+        const currentIndex = timelineEvents.findIndex(e => e.id === current)
+        return timelineEvents[(currentIndex + 1) % timelineEvents.length].id
+      })
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
 
   return (
     <section id="process" className="py-24 relative overflow-hidden bg-zinc-950">
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row gap-16 items-start">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
           
-          {/* Left Column: Heading & Visuals */}
-          <div className="md:w-1/2 flex flex-col h-full sticky top-32">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+          {/* CỘT TRÁI: TIÊU ĐỀ VÀ VIDEO */}
+          <div className="w-full lg:w-5/12 flex flex-col h-full sticky top-32">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
                 <span className="text-xs font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500 uppercase">
-                  Cách Genu Hoạt Động
+                  Trải nghiệm thực tế
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 leading-tight">
-                Tương Tác Tự Nhiên. <br /> Phản Hồi Tức Thì.
+                Trợ Lý Hoàn Hảo. <br /> Từ Sáng Đến Đêm.
               </h2>
-              <p className="text-zinc-400 text-lg max-w-md mb-12">
-                Khám phá luồng xử lý thông minh siêu tốc (chưa đến 0.2 giây) ẩn sau mỗi cuộc trò chuyện, giúp Genu thấu hiểu bạn như một người bạn thực thụ.
+              <p className="text-zinc-400 text-lg mb-10">
+                Khám phá cách Genu hòa nhịp vào cuộc sống hàng ngày, biến mỗi khoảnh khắc của bạn trở nên sinh động và trọn vẹn.
               </p>
             </motion.div>
 
-            {/* Khung hiển thị Hoạt ảnh Abstract */}
-            <div className="relative h-[300px] w-full rounded-3xl overflow-hidden hidden md:block border border-white/10 bg-zinc-900/50 backdrop-blur-sm">
+            {/* KHUNG VIDEO: Tỉ lệ vuông hoàn hảo (aspect-square), bóng chìm */}
+            <div className="relative w-full max-w-[420px] aspect-square rounded-3xl overflow-hidden hidden lg:block border border-white/10 bg-[#111] shadow-[0_0_50px_rgba(0,0,0,0.6)]">
+              {/* Bóng chìm (inner shadow) để viền video hòa quyện vào nền */}
+              <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.8)] z-10 pointer-events-none" />
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={activeProcess}
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  key={activeEvent}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.1 }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute inset-0 p-8"
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0"
                 >
-                  <div className="w-full h-full border border-white/5 rounded-2xl bg-zinc-950/50 flex items-center justify-center overflow-hidden">
-                    <ProcessVisual activeId={activeProcess} />
+                  <div className="w-full h-full flex items-center justify-center overflow-hidden bg-[#111]">
+                    <TimelineVisual activeId={activeEvent} />
                   </div>
                 </motion.div>
               </AnimatePresence>
             </div>
           </div>
 
-          {/* Right Column: Process List */}
-          <div className="md:w-1/2 space-y-6">
-            {processes.map((process, index) => {
-              const isActive = activeProcess === process.id
-              
-              // Map màu viền và text khi active
-              const colorClasses: Record<string, { text: string, bg: string }> = {
-                "01": { text: "text-pink-500", bg: "from-pink-500/10" },
-                "02": { text: "text-purple-500", bg: "from-purple-500/10" },
-                "03": { text: "text-yellow-400", bg: "from-yellow-400/10" },
-                "04": { text: "text-emerald-400", bg: "from-emerald-400/10" },
-              }
-              const activeColor = colorClasses[process.id]
+          {/* CỘT PHẢI: DANH SÁCH THẺ (Đã thiết kế lại gọn gàng hơn) */}
+          <div className="w-full lg:w-7/12 flex flex-col gap-4">
+            {timelineEvents.map((item, index) => {
+              const isActive = activeEvent === item.id
+              const theme = colorTheme[item.id]
 
               return (
                 <motion.div
-                  key={process.id}
-                  initial={{ opacity: 0, x: 50 }}
+                  key={item.id}
+                  initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  onMouseEnter={() => setActiveProcess(process.id)}
-                  onClick={() => setActiveProcess(process.id)}
-                  className={`relative p-8 rounded-2xl cursor-pointer transition-all duration-500 overflow-hidden group ${
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onClick={() => setActiveEvent(item.id)}
+                  className={`cursor-pointer transition-all duration-500 rounded-3xl overflow-hidden border ${
                     isActive 
-                      ? "bg-white/10 border-white/20" 
-                      : "bg-white/5 border-transparent hover:bg-white/10 hover:border-white/10"
-                  } border`}
+                      ? `${theme.bg} ${theme.border} shadow-2xl scale-[1.02]` 
+                      : "bg-transparent border-transparent hover:bg-white/5 opacity-60 hover:opacity-100 scale-100"
+                  }`}
                 >
-                  {/* Background glow when active */}
-                  {isActive && (
-                    <motion.div 
-                      layoutId="activeProcessBg"
-                      className={`absolute inset-0 bg-gradient-to-r ${activeColor.bg} to-transparent pointer-events-none`}
-                      initial={false}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-
-                  <div className="relative z-10 flex flex-col sm:flex-row gap-6 sm:items-center">
-                    <span className={`text-4xl md:text-5xl font-heading font-bold transition-colors duration-500 ${
-                      isActive ? activeColor.text : "text-zinc-600 group-hover:text-zinc-400"
-                    }`}>
-                      {process.id}
-                    </span>
+                  <div className="p-6 md:p-8 flex flex-col sm:flex-row gap-6 md:gap-8 items-start">
                     
+                    {/* Phần Giờ (Bên Trái) */}
+                    <div className="shrink-0 flex sm:flex-col items-center sm:items-start gap-3 sm:gap-1 sm:w-24">
+                      <span className={`text-4xl md:text-5xl font-heading font-black tracking-tighter transition-colors duration-500 ${isActive ? theme.text : "text-zinc-500"}`}>
+                        {item.id}
+                      </span>
+                      <span className={`text-xs font-bold tracking-widest ${isActive ? "text-zinc-300" : "text-zinc-600"}`}>
+                        {item.period}
+                      </span>
+                    </div>
+
+                    {/* Đường phân cách (chỉ hiện trên Desktop) */}
+                    <div className="hidden sm:block w-[1px] h-auto self-stretch bg-white/10" />
+                    
+                    {/* Phần Nội Dung (Bên Phải) */}
                     <div className="flex-1">
-                      <h3 className={`text-xl md:text-2xl font-heading font-semibold mb-2 transition-colors duration-500 ${
-                        isActive ? "text-white" : "text-zinc-300 group-hover:text-white"
-                      }`}>
-                        {process.title}
-                      </h3>
+                      <div className="flex items-center gap-3 mb-2">
+                        {isActive ? theme.icon : <div className="w-2 h-2 rounded-full bg-zinc-600" />}
+                        <h3 className={`text-xl md:text-2xl font-heading font-bold transition-colors duration-500 ${isActive ? "text-white" : "text-zinc-400"}`}>
+                          {item.title}
+                        </h3>
+                      </div>
                       
                       <AnimatePresence>
                         {isActive && (
                           <motion.p 
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
+                            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                            animate={{ opacity: 1, height: "auto", marginTop: 12 }}
+                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="text-zinc-400 leading-relaxed text-sm md:text-base mt-4"
+                            className="text-zinc-400 leading-relaxed text-base"
                           >
-                            {process.description}
+                            {item.description}
                           </motion.p>
                         )}
                       </AnimatePresence>
                     </div>
 
-                    <div className={`mt-4 sm:mt-0 transition-all duration-500 shrink-0 ${
-                      isActive ? "text-white rotate-0" : "text-zinc-600 group-hover:text-white -rotate-45"
-                    }`}>
-                      <ArrowUpRight className="w-6 h-6" />
-                    </div>
                   </div>
                 </motion.div>
               )

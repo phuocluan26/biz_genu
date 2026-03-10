@@ -35,7 +35,7 @@ export function Navbar() {
         }`}
       >
         <Link href="/" className="flex items-center gap-2 relative z-10 group">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500 font-heading font-black text-xl tracking-wider">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-500 via-purple-500 to-yellow-500 font-heading font-black text-xl tracking-wider">
             BIZGENIE
           </span>
         </Link>
@@ -64,7 +64,7 @@ export function Navbar() {
           ))}
           
           <div className="pl-4 ml-2 border-l border-white/10">
-            <Button variant="primary" className="rounded-full h-9 px-6 font-semibold bg-gradient-to-r from-purple-600 to-yellow-500 text-white border-0 transition-all hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
+            <Button variant="primary" className="rounded-full h-9 px-6 font-semibold bg-linear-to-r from-purple-600 to-yellow-500 text-white border-0 transition-all hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
               LET'S TALK
             </Button>
           </div>
@@ -98,7 +98,7 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <Button variant="primary" className="w-full mt-4 rounded-xl py-6 text-base bg-gradient-to-r from-purple-600 to-yellow-500 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
+              <Button variant="primary" className="w-full mt-4 rounded-xl py-6 text-base bg-linear-to-r from-purple-600 to-yellow-500 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
                 LET'S TALK
               </Button>
             </div>

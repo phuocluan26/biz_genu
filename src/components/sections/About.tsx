@@ -45,7 +45,7 @@ export function About() {
             
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 leading-tight">
               Người Bạn Đồng Hành <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-500 via-purple-500 to-yellow-500">
                 Khơi Nguồn Tri Thức.
               </span>
             </h2>

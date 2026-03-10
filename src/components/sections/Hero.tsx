@@ -45,7 +45,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               TRỢ LÝ AI <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-500 via-purple-500 to-yellow-500">
                 GENU
               </span>
             </motion.h1>
@@ -94,7 +94,7 @@ export function Hero() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <Button variant="primary" size="lg" className="rounded-full bg-gradient-to-r from-purple-600 to-yellow-500 text-white shadow-[0_0_20px_rgba(236,72,153,0.4)] transition-all hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] font-bold px-8">
+              <Button variant="primary" size="lg" className="rounded-full bg-linear-to-r from-purple-600 to-yellow-500 text-white shadow-[0_0_20px_rgba(236,72,153,0.4)] transition-all hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] font-bold px-8">
                 TÌM HIỂU THÊM
               </Button>
             </motion.div>
@@ -109,7 +109,7 @@ export function Hero() {
             className="relative w-full flex justify-center items-center h-[400px] lg:h-[600px] order-first lg:order-last"
           >
             {/* Background glow sau lưng Robot */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 lg:w-80 lg:h-80 bg-gradient-to-tr from-pink-500/30 to-purple-600/30 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 lg:w-80 lg:h-80 bg-linear-to-r from-pink-500/30 to-purple-600/30 rounded-full blur-3xl pointer-events-none" />
             
             {/* Render RobotModel từ Three.js */}
             <div className="w-full h-full absolute inset-0">

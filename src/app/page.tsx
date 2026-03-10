@@ -4,8 +4,7 @@ import { Hero } from "@/components/sections/Hero"
 import { About } from "@/components/sections/About"
 import { Services } from "@/components/sections/Services"
 import { Process } from "@/components/sections/Process"
-import { Partners } from "@/components/sections/Partners"
-import { Contact } from "@/components/sections/Contact"
+import { Waitlist } from "@/components/sections/Waitlist"
 
 export default function Home() {
   return (
@@ -16,8 +15,7 @@ export default function Home() {
         <About />
         <Services />
         <Process />
-        <Partners />
-        <Contact />
+        <Waitlist />
       </main>
       <Footer />
     </>
