@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -19,10 +18,12 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Cập nhật lại Links cho khớp với các Sections thực tế
   const navLinks = [
-    { name: "ABOUT", href: "#about" },
-    { name: "SERVICES", href: "#services" },
-    { name: "PROCESS", href: "#process" },
+    { name: "VỀ GENU", href: "#about" },
+    { name: "TÍNH NĂNG", href: "#services" },
+    { name: "TRẢI NGHIỆM", href: "#process" },
+    { name: "ĐẶT TRƯỚC", href: "#waitlist" },
   ]
 
   return (
@@ -40,6 +41,7 @@ export function Navbar() {
           </span>
         </Link>
 
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-2">
           {navLinks.map((link, index) => (
             <Link
@@ -62,12 +64,6 @@ export function Navbar() {
               <span className="relative z-10">{link.name}</span>
             </Link>
           ))}
-          
-          <div className="pl-4 ml-2 border-l border-white/10">
-            <Button variant="primary" className="rounded-full h-9 px-6 font-semibold bg-linear-to-r from-purple-600 to-yellow-500 text-white border-0 transition-all hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
-              LET'S TALK
-            </Button>
-          </div>
         </nav>
 
         <button
@@ -78,6 +74,7 @@ export function Navbar() {
         </button>
       </div>
 
+      {/* Mobile Nav */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -98,9 +95,6 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <Button variant="primary" className="w-full mt-4 rounded-xl py-6 text-base bg-linear-to-r from-purple-600 to-yellow-500 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
-                LET'S TALK
-              </Button>
             </div>
           </motion.div>
         )}

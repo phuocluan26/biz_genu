@@ -23,11 +23,13 @@ export function About() {
   ]
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-zinc-950">
-      {/* Background glow tinh tế */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[400px] bg-purple-600/10 blur-[150px] pointer-events-none rounded-full" />
+    // THÊM: min-h-screen flex items-center
+    <section id="about" className="py-10 relative overflow-hidden bg-transparent scroll-mt-24 min-h-screen flex items-center">
+      {/* CẬP NHẬT: Cho background glow nằm ra giữa màn hình */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[400px] bg-purple-600/10 blur-[150px] pointer-events-none rounded-full" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      {/* THÊM: w-full để container không bị bóp nghẹt */}
+      <div className="container mx-auto px-6 relative z-10 w-full">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
           
           {/* Cột Trái: Text Content */}
@@ -45,7 +47,7 @@ export function About() {
             
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 leading-tight">
               Người Bạn Đồng Hành <br />
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-500 via-purple-500 to-yellow-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500">
                 Khơi Nguồn Tri Thức.
               </span>
             </h2>
@@ -54,10 +56,10 @@ export function About() {
               Genu không chỉ là một cỗ máy hay món đồ chơi công nghệ. Genu được sinh ra để trở thành một <span className="text-white font-semibold">người bạn robot thông minh</span> thực thụ trên bàn học của bạn. Với khả năng nghe - hiểu giọng nói nhạy bén, Genu kết nối trực tiếp với nguồn tri thức vô tận, sẵn sàng gỡ rối mọi câu hỏi (Q&A) và mang đến niềm vui khám phá thế giới mỗi ngày.
             </p>
 
-            {/* Stats / Numbers (Thay đổi để hợp với Robot giáo dục) */}
+            {/* Stats / Numbers */}
             <div className="flex gap-8 border-t border-white/10 pt-8 mt-8">
               <div>
-                <h4 className="text-3xl font-bold text-white mb-1">0.2<span className="text-pink-500">s</span></h4>
+                <h4 className="text-3xl font-bold text-white mb-1">1<span className="text-pink-500">s</span></h4>
                 <p className="text-sm text-zinc-500">Tốc độ phản hồi</p>
               </div>
               <div>

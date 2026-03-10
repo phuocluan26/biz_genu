@@ -5,16 +5,16 @@ import { MapPin, Mail, Hash, ArrowRight, Bot, Sparkles } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="relative bg-zinc-950 pt-24 pb-12 overflow-hidden border-t border-white/5">
+    <footer className="relative bg-transparent pt-24 pb-12 overflow-hidden border-white/5">
       {/* Background Glows */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-t from-purple-900/20 via-pink-900/10 to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-linear-to-t from-purple-900/20 via-pink-900/10 to-transparent blur-[120px] pointer-events-none" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-[url('/images/grid.png')] bg-repeat opacity-5 pointer-events-none mask-image-fade" />
 
       <div className="container mx-auto px-6 relative z-10">
         
         {/* Phần 1: Lời kêu gọi hành động (CTA) cực mạnh */}
         <div className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-3xl bg-zinc-900/50 border border-white/10 backdrop-blur-xl mb-16 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-r from-pink-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           
           <div className="relative z-10 mb-8 md:mb-0 text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-white mb-2">
@@ -39,7 +39,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-12 lg:col-span-5 flex flex-col">
             <Link href="/" className="inline-block mb-2">
               {/* Tên công ty với Gradient giống ảnh mẫu */}
-              <span className="text-4xl font-heading font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-pink-300">
+              <span className="text-4xl font-heading font-black tracking-tight text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-pink-400 to-pink-300">
                 GENU
               </span>
             </Link>
@@ -67,7 +67,7 @@ export function Footer() {
               <li><Link href="#about" className="text-zinc-400 hover:text-pink-400 transition-colors">Thiết kế & Công nghệ</Link></li>
               <li><Link href="#services" className="text-zinc-400 hover:text-pink-400 transition-colors">Siêu năng lực AI</Link></li>
               <li><Link href="#process" className="text-zinc-400 hover:text-pink-400 transition-colors">Trải nghiệm thực tế</Link></li>
-              <li><Link href="#waitlist" className="text-zinc-400 hover:text-pink-400 transition-colors">Đăng ký Waitlist</Link></li>
+              <li><Link href="#waitlist" className="text-zinc-400 hover:text-pink-400 transition-colors">Đăng ký</Link></li>
             </ul>
           </div>
 
