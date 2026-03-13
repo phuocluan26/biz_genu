@@ -1,11 +1,13 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Mic, Sparkles } from "lucide-react"
+import Image from "next/image"
 
-// Import RobotModel động để tránh lỗi render từ server (SSR) và tối ưu loading
+// Import RobotModel động để tránh lỗi render từ server (SSR)
 const RobotModel = dynamic(
   () => import("@/components/three/RobotModel").then((mod) => mod.RobotModel),
   { 
@@ -19,6 +21,21 @@ const RobotModel = dynamic(
 )
 
 export function Hero() {
+  const [isMounted, setIsMounted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+    const checkDevice = () => {
+      // Dưới 1024px (Tailwind 'lg') sẽ coi là Mobile/Tablet và dùng ảnh tĩnh
+      setIsMobile(window.innerWidth < 1024)
+    }
+    
+    checkDevice()
+    window.addEventListener("resize", checkDevice)
+    return () => window.removeEventListener("resize", checkDevice)
+  }, [])
+
   return (
     <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden">
       {/* Background Gradients & Grid */}
@@ -100,7 +117,7 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* CỘT PHẢI: HIỂN THỊ ROBOT 3D (Đã được khôi phục) */}
+          {/* CỘT PHẢI: HIỂN THỊ ROBOT 3D HOẶC ẢNH PNG TÙY THIẾT BỊ */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -111,9 +128,29 @@ export function Hero() {
             {/* Background glow sau lưng Robot */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 lg:w-80 lg:h-80 bg-linear-to-r from-pink-500/30 to-purple-600/30 rounded-full blur-3xl pointer-events-none" />
             
-            {/* Render RobotModel từ Three.js */}
-            <div className="w-full h-full absolute inset-0">
-              <RobotModel />
+            <div className="w-full h-full absolute inset-0 flex items-center justify-center">
+              {!isMounted ? (
+                // Chờ load xong để biết là Mobile hay Desktop
+                <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin opacity-50" />
+              ) : isMobile ? (
+                // TRÊN MOBILE: Hiển thị ảnh tĩnh PNG với hiệu ứng lơ lửng
+                <motion.div 
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-square"
+                >
+                  <Image 
+                    src="/image/robot-mobile.png" 
+                    alt="Genu Robot 3D" 
+                    fill 
+                    className="object-contain drop-shadow-[0_0_30px_rgba(236,72,153,0.3)]"
+                    priority
+                  />
+                </motion.div>
+              ) : (
+                // TRÊN DESKTOP: Hiển thị 3D Model
+                <RobotModel />
+              )}
             </div>
           </motion.div>
           
