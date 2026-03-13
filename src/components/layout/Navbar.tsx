@@ -11,14 +11,35 @@ export function Navbar() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    let ticking = false;
 
-  // Cập nhật lại Links cho khớp với các Sections thực tế
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Hàm xử lý cuộn mượt bằng JS
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      setIsMobileMenuOpen(false); // Đóng menu mobile nếu đang mở
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   const navLinks = [
     { name: "VỀ GENU", href: "#about" },
     { name: "TÍNH NĂNG", href: "#services" },
@@ -44,10 +65,11 @@ export function Navbar() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-2">
           {navLinks.map((link, index) => (
-            <Link
+            <a
               key={link.name}
               href={link.href}
-              className="relative px-4 py-2 text-sm font-semibold tracking-wide text-zinc-300 hover:text-white transition-colors rounded-full"
+              onClick={(e) => handleNavClick(e, link.href)}
+              className="relative px-4 py-2 text-sm font-semibold tracking-wide text-zinc-300 hover:text-white transition-colors rounded-full cursor-pointer"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -62,7 +84,7 @@ export function Navbar() {
                 />
               )}
               <span className="relative z-10">{link.name}</span>
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -86,14 +108,14 @@ export function Navbar() {
           >
             <div className="p-6 flex flex-col gap-2">
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.name}
                   href={link.href}
-                  className="text-base font-medium text-zinc-300 hover:text-white hover:translate-x-2 transition-all duration-300 p-3 rounded-xl hover:bg-white/5"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="text-base font-medium text-zinc-300 hover:text-white hover:translate-x-2 transition-all duration-300 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
             </div>
           </motion.div>

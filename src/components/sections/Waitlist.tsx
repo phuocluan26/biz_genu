@@ -44,8 +44,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   }
 
   return (
-  <section id="waitlist" className="py-24 relative overflow-hidden bg-transparent scroll-mt-24">
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      <section id="waitlist" className="pt-8 pb-24 relative overflow-hidden bg-transparent scroll-mt-24 min-h-screen flex items-center">      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">

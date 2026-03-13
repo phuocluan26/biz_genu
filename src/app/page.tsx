@@ -6,6 +6,8 @@ import { Services } from "@/components/sections/Services"
 import { Process } from "@/components/sections/Process"
 import { Waitlist } from "@/components/sections/Waitlist"
 import { AmbientBackground } from "@/components/layout/AmbientBackground"
+// THÊM DÒNG IMPORT NÀY:
+import { ScrollToTop } from "@/components/ui/ScrollToTop"
 
 export default function Home() {
   return (
@@ -20,6 +22,8 @@ export default function Home() {
         <Waitlist />
       </main>
       <Footer />
+      {/* GỌI COMPONENT Ở ĐÂY: */}
+      <ScrollToTop />
     </>
   )
 }

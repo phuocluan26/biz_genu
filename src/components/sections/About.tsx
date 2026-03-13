@@ -24,8 +24,7 @@ export function About() {
 
   return (
     // THÊM: min-h-screen flex items-center
-    <section id="about" className="py-10 relative overflow-hidden bg-transparent scroll-mt-24 min-h-screen flex items-center">
-      {/* CẬP NHẬT: Cho background glow nằm ra giữa màn hình */}
+    <section id="about" className="pt-8 pb-32 md:pb-48 relative overflow-hidden bg-transparent scroll-mt-24 min-h-screen flex items-center">      {/* CẬP NHẬT: Cho background glow nằm ra giữa màn hình */}
       <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[400px] bg-purple-600/10 blur-[150px] pointer-events-none rounded-full" />
 
       {/* THÊM: w-full để container không bị bóp nghẹt */}

@@ -49,8 +49,7 @@ export function Process() {
 
   return (
     // Đã thêm scroll-mt-24 để không bị đè Navbar
-    <section id="process" className="py-24 relative overflow-hidden bg-transparent scroll-mt-24">
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-7xl">
+      <section id="process" className="pt-8 pb-32 md:pb-48 relative overflow-hidden bg-transparent scroll-mt-24 min-h-screen flex items-center">      <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-24 items-start">
           
           {/* CỘT TRÁI: TIÊU ĐỀ VÀ VIDEO */}
